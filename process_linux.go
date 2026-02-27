@@ -1,3 +1,4 @@
+//go:build linux
 // +build linux
 
 package ps
@@ -24,12 +25,16 @@ func (p *UnixProcess) Refresh() error {
 
 	// Move past the image name and start parsing the rest
 	data = data[binStart+binEnd+2:]
+	// https://pkg.go.dev/fmt#Sscanf
 	_, err = fmt.Sscanf(data,
-		"%c %d %d %d",
-		&p.state,
-		&p.ppid,
-		&p.pgrp,
-		&p.sid)
+		"%c %d %d %d "+
+			"%*d %*d %*d %*d %*d %*d "+
+			"%*d %*d %*d %*d %*d %*d %*d %*d %*d %*d "+
+			"%d %d",
+		&p.state, &p.ppid, &p.pgrp, &p.sid,
+
+		&p.vsize, &p.rss,
+	)
 
 	return err
 }

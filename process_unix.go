@@ -1,3 +1,4 @@
+//go:build linux || solaris
 // +build linux solaris
 
 package ps
@@ -12,13 +13,17 @@ import (
 // UnixProcess is an implementation of Process that contains Unix-specific
 // fields and information.
 type UnixProcess struct {
-	pid   int
-	ppid  int
+	pid int
+
+	binary string
+
 	state rune
+	ppid  int
 	pgrp  int
 	sid   int
 
-	binary string
+	vsize uint64
+	rss   uint32
 }
 
 func (p *UnixProcess) Pid() int {
