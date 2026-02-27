@@ -1,3 +1,3 @@
-module github.com/mitchellh/go-ps
+module github.com/shoce/go-ps
 
 go 1.13
