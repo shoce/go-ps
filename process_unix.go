@@ -44,7 +44,7 @@ func (p *UnixProcess) Executable() string {
 	return p.comm
 }
 
-func (p *UnixProcess) Cmdline() string {
+func (p *UnixProcess) Cmdline() []string {
 	return p.cmdline
 }
 
