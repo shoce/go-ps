@@ -102,6 +102,7 @@ func processes() ([]Process, error) {
 
 			p, err := newUnixProcess(int(pid))
 			if err != nil {
+				fmt.Fprintf(os.Stderr, "ERROR %v \n", err)
 				continue
 			}
 
