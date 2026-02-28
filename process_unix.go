@@ -4,7 +4,6 @@ package ps
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"strconv"
 )
@@ -114,37 +113,39 @@ func processes() ([]Process, error) {
 	}
 	defer d.Close()
 
-	results := make([]Process, 0, 50)
-	for {
-		names, err := d.Readdirnames(10)
-		if err == io.EOF {
-			break
+	results := make([]Process, 0, 1000)
+	fis, err := d.Readdir(-1)
+	if err != nil {
+		return nil, err
+	}
+	for _, fi := range fis {
+		if !fi.IsDir() {
+			continue
 		}
+
+		// We only care if the name starts with a numeric
+		name := fi.Name()
+		if len(name) == 0 {
+			return nil, fmt.Errorf("empty file name")
+		}
+		if name[0] < '0' || name[0] > '9' {
+			continue
+		}
+
+		// From this point forward, any errors we just ignore, because
+		// it might simply be that the process doesn't exist anymore.
+		pid, err := strconv.ParseInt(name, 10, 0)
 		if err != nil {
-			return nil, err
+			continue
 		}
 
-		for _, name := range names {
-			// We only care if the name starts with a numeric
-			if name[0] < '0' || name[0] > '9' {
-				continue
-			}
-
-			// From this point forward, any errors we just ignore, because
-			// it might simply be that the process doesn't exist anymore.
-			pid, err := strconv.ParseInt(name, 10, 0)
-			if err != nil {
-				continue
-			}
-
-			p, err := newUnixProcess(int(pid))
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "ERROR %v \n", err)
-				continue
-			}
-
-			results = append(results, p)
+		p, err := newUnixProcess(int(pid))
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "ERROR %v\n", err)
+			continue
 		}
+
+		results = append(results, p)
 	}
 
 	return results, nil
