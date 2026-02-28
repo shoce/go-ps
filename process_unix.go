@@ -1,5 +1,4 @@
 //go:build linux || solaris
-// +build linux solaris
 
 package ps
 
@@ -36,6 +35,14 @@ func (p *UnixProcess) PPid() int {
 
 func (p *UnixProcess) Executable() string {
 	return p.binary
+}
+
+func (p *UnixProcess) Vsize() uint64 {
+	return p.vsize
+}
+
+func (p *UnixProcess) Rss() uint32 {
+	return p.rss
 }
 
 func findProcess(pid int) (Process, error) {

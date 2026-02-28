@@ -19,6 +19,9 @@ type Process interface {
 	// Executable name running this process. This is not a path to the
 	// executable.
 	Executable() string
+
+	Vsize() uint64
+	Rss() uint32
 }
 
 // Processes returns all processes.

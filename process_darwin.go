@@ -14,6 +14,8 @@ type DarwinProcess struct {
 	pid    int
 	ppid   int
 	binary string
+	vsize  uint64
+	rss    uint32
 }
 
 func (p *DarwinProcess) Pid() int {
@@ -26,6 +28,14 @@ func (p *DarwinProcess) PPid() int {
 
 func (p *DarwinProcess) Executable() string {
 	return p.binary
+}
+
+func (p *DarwinProcess) Vsize() uint64 {
+	return p.vsize
+}
+
+func (p *DarwinProcess) Rss() uint32 {
+	return p.rss
 }
 
 func findProcess(pid int) (Process, error) {
