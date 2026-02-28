@@ -14,7 +14,8 @@ type DarwinProcess struct {
 	pid  int
 	ppid int
 
-	binary string
+	binary  string
+	cmdline string
 
 	utime     uint64
 	stime     uint64
@@ -41,7 +42,7 @@ func (p *DarwinProcess) Executable() string {
 }
 
 func (p *DarwinProcess) Cmdline() string {
-	return p.binary
+	return p.cmdline
 }
 
 func (p *DarwinProcess) Utime() uint64 {
@@ -113,9 +114,13 @@ func processes() ([]Process, error) {
 	darwinProcs := make([]Process, len(procs))
 	for i, p := range procs {
 		darwinProcs[i] = &DarwinProcess{
-			pid:    int(p.Pid),
-			ppid:   int(p.PPid),
-			binary: darwinCstring(p.Comm),
+			pid:       int(p.Pid),
+			ppid:      int(p.PPid),
+			binary:    darwinCstring(p.Comm),
+			cmdline:   darwinCstring(p.Comm),
+			utime:     uint64(p.Uticks),
+			stime:     uint64(p.Sticks),
+			starttime: uint64(p.StartSec),
 		}
 	}
 
@@ -177,11 +182,17 @@ const (
 )
 
 type kinfoProc struct {
-	_    [40]byte
-	Pid  int32
-	_    [199]byte
-	Comm [16]byte
-	_    [301]byte
-	PPid int32
-	_    [84]byte
+	_         [8]byte
+	StartSec  int64
+	StartUsec int32
+	_         [20]byte
+	Pid       int32
+	_         [160]byte
+	Uticks    uint32
+	Sticks    uint32
+	_         [31]byte
+	Comm      [16]byte
+	_         [301]byte
+	PPid      int32
+	_         [84]byte
 }
