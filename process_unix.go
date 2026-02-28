@@ -14,7 +14,8 @@ import (
 type UnixProcess struct {
 	pid int
 
-	binary string
+	binary  string
+	cmdline string
 
 	state rune
 	ppid  int
@@ -37,6 +38,10 @@ func (p *UnixProcess) PPid() int {
 
 func (p *UnixProcess) Executable() string {
 	return p.binary
+}
+
+func (p *UnixProcess) Cmdline() string {
+	return p.cmdline
 }
 
 func (p *UnixProcess) Vsize() uint64 {

@@ -19,9 +19,12 @@ type Process interface {
 	// Executable name running this process. This is not a path to the
 	// executable.
 	Executable() string
+	Cmdline() string
 
 	Vsize() uint64
 	Rss() uint32
+
+	Cgroup() string
 }
 
 // Processes returns all processes.
