@@ -18,10 +18,7 @@ How it works:
 
 ## Installation
 
-Install using standard `go get`:
-
 ```
-$ go get github.com/shoce/go-ps
-...
+go get github.com/shoce/go-ps
 ```
 
