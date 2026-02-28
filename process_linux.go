@@ -28,11 +28,12 @@ func (p *UnixProcess) Refresh() error {
 	// https://pkg.go.dev/fmt#Sscanf
 	_, err = fmt.Sscanf(data,
 		"%c %d %d %d "+
-			"%*d %*d %*d %*d %*d %*d "+
-			"%*d %*d %*d %*d %*d %*d %*d %*d %*d %*d "+
+			"%d %d %d %d %d %d "+
+			"%d %d %d %d %d %d %d %d %d %d "+
 			"%d %d",
 		&p.state, &p.ppid, &p.pgrp, &p.sid,
-
+		&_, &_, &_, &_, &_, &_,
+		&_, &_, &_, &_, &_, &_, &_, &_, &_, &_,
 		&p.vsize, &p.rss,
 	)
 	if err != nil {
