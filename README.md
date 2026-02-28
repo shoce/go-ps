@@ -1,4 +1,4 @@
-# Process List Library for Go [![GoDoc](https://godoc.org/github.com/mitchellh/go-ps?status.png)](https://godoc.org/github.com/mitchellh/go-ps)
+# Process List Library for Go [![GoDoc](https://godoc.org/github.com/shoce/go-ps?status.png)](https://godoc.org/github.com/shoce/go-ps)
 
 go-ps is a library for Go that implements OS-specific APIs to list and
 manipulate processes in a platform-safe way. The library can find and
@@ -21,14 +21,7 @@ How it works:
 Install using standard `go get`:
 
 ```
-$ go get github.com/mitchellh/go-ps
+$ go get github.com/shoce/go-ps
 ...
 ```
 
-## TODO
-
-Want to contribute? Here is a short TODO list of things that aren't
-implemented for this library that would be nice:
-
-  * FreeBSD support
-  * Plan9 support
