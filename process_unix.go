@@ -14,7 +14,7 @@ type UnixProcess struct {
 	pid int
 
 	comm    string
-	cmdline string
+	cmdline []string
 
 	state  rune
 	ppid   int

@@ -52,9 +52,9 @@ func (p *UnixProcess) Refresh() error {
 	if err != nil {
 		return err
 	}
-	cmdlineBytes = bytes.ReplaceAll(cmdlineBytes, []byte{0}, []byte(" "))
-	cmdlineBytes = bytes.ReplaceAll(cmdlineBytes, []byte("\n"), []byte(" "))
-	p.cmdline = string(cmdlineBytes)
+	for _, a := range bytes.Split(cmdlineBytes, []byte{0}) {
+		p.cmdline = append(p.cmdline, string(a))
+	}
 
 	cgroupPath := fmt.Sprintf("/proc/%d/cgroup", p.pid)
 	cgroupBytes, err := ioutil.ReadFile(cgroupPath)

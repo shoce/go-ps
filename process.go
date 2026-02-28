@@ -17,7 +17,7 @@ type Process interface {
 	Sid() int
 
 	Executable() string
-	Cmdline() string
+	Cmdline() []string
 
 	Utime() uint64
 	Stime() uint64

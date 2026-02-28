@@ -14,7 +14,7 @@ type DarwinProcess struct {
 	pid int
 
 	binary  string
-	cmdline string
+	cmdline []string
 
 	ppid int
 	pgrp int
@@ -40,7 +40,7 @@ func (p *DarwinProcess) Executable() string {
 	return p.binary
 }
 
-func (p *DarwinProcess) Cmdline() string {
+func (p *DarwinProcess) Cmdline() []string {
 	return p.cmdline
 }
 
@@ -135,7 +135,7 @@ func processes() ([]Process, error) {
 		darwinProcs[i] = &DarwinProcess{
 			pid:       int(p.Pid),
 			binary:    darwinCstring(p.Comm),
-			cmdline:   darwinCstring(p.Comm),
+			cmdline:   []string{darwinCstring(p.Comm)},
 			ppid:      int(p.PPid),
 			pgrp:      pgid,
 			sid:       sid,
