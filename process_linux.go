@@ -25,6 +25,7 @@ func (p *UnixProcess) Refresh() error {
 
 	// Move past the image name and start parsing the rest
 	data = data[binStart+binEnd+2:]
+	var skip int64
 	// https://pkg.go.dev/fmt#Sscanf
 	_, err = fmt.Sscanf(data,
 		"%c %d %d %d "+
@@ -32,8 +33,8 @@ func (p *UnixProcess) Refresh() error {
 			"%d %d %d %d %d %d %d %d %d %d "+
 			"%d %d",
 		&p.state, &p.ppid, &p.pgrp, &p.sid,
-		&_, &_, &_, &_, &_, &_,
-		&_, &_, &_, &_, &_, &_, &_, &_, &_, &_,
+		&skip, &skip, &skip, &skip, &skip, &skip,
+		&skip, &skip, &skip, &skip, &skip, &skip, &skip, &skip, &skip, &skip,
 		&p.vsize, &p.rss,
 	)
 	if err != nil {
