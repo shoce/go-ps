@@ -53,6 +53,18 @@ func (p *UnixProcess) Cmdline() string {
 	return p.cmdline
 }
 
+func (p *UnixProcess) Utime() uint64 {
+	return p.utime
+}
+
+func (p *UnixProcess) Stime() uint64 {
+	return p.stime
+}
+
+func (p *UnixProcess) Starttime() uint64 {
+	return p.starttime
+}
+
 func (p *UnixProcess) Vsize() uint64 {
 	return p.vsize
 }
