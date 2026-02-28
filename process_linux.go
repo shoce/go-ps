@@ -53,7 +53,10 @@ func (p *UnixProcess) Refresh() error {
 		return err
 	}
 	cmdlineBytess := bytes.Split(cmdlineBytes, []byte{0})
-	for _, a := range cmdlineBytess[:len(cmdlineBytess)-1] {
+	for len(cmdlineBytess) > 0 && len(cmdlineBytess[len(cmdlineBytess)-1]) == 0 {
+		cmdlineBytess = cmdlineBytess[:len(cmdlineBytess)-1]
+	}
+	for _, a := range cmdlineBytess {
 		p.cmdline = append(p.cmdline, string(a))
 	}
 
