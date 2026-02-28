@@ -17,10 +17,19 @@ type UnixProcess struct {
 	binary  string
 	cmdline string
 
-	state rune
-	ppid  int
-	pgrp  int
-	sid   int
+	state  rune
+	ppid   int
+	pgrp   int
+	sid    int
+	tty_nr int
+	tpgid  int
+
+	utime  uint64
+	stime  uint64
+	cutime int64
+	cstime int64
+
+	starttime uint64
 
 	vsize uint64
 	rss   uint32
