@@ -3,6 +3,7 @@
 package ps
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"strings"
@@ -34,6 +35,25 @@ func (p *UnixProcess) Refresh() error {
 
 		&p.vsize, &p.rss,
 	)
+	if err != nil {
+		return err
+	}
 
-	return err
+	cmdlinePath := fmt.Sprintf("/proc/%d/cmdline", p.pid)
+	cmdlineBytes, err := ioutil.ReadFile(cmdlinePath)
+	if err != nil {
+		return err
+	}
+	cmdlineBytes = bytes.ReplaceAll(cmdlineBytes, []byte{0}, []byte(" "))
+	cmdlineBytes = bytes.ReplaceAll(cmdlineBytes, []byte("\n"), []byte(" "))
+	p.cmdline = string(cmdlineBytes)
+
+	cgroupPath := fmt.Sprintf("/proc/%d/cgroup", p.pid)
+	cgroupBytes, err := ioutil.ReadFile(cgroupPath)
+	if err != nil {
+		return err
+	}
+	p.cgroup = string(cgroupBytes)
+
+	return nil
 }

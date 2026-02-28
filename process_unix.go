@@ -23,6 +23,8 @@ type UnixProcess struct {
 
 	vsize uint64
 	rss   uint32
+
+	cgroup string
 }
 
 func (p *UnixProcess) Pid() int {
@@ -43,6 +45,10 @@ func (p *UnixProcess) Vsize() uint64 {
 
 func (p *UnixProcess) Rss() uint32 {
 	return p.rss
+}
+
+func (p *UnixProcess) Cgroup() string {
+	return p.cgroup
 }
 
 func findProcess(pid int) (Process, error) {
