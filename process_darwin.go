@@ -11,11 +11,18 @@ import (
 )
 
 type DarwinProcess struct {
-	pid    int
-	ppid   int
+	pid  int
+	ppid int
+
 	binary string
-	vsize  uint64
-	rss    uint32
+
+	utime     uint64
+	stime     uint64
+	starttime uint64
+
+	vsize uint64
+	rss   uint32
+
 	cgroup string
 }
 
@@ -33,6 +40,18 @@ func (p *DarwinProcess) Executable() string {
 
 func (p *DarwinProcess) Cmdline() string {
 	return p.binary
+}
+
+func (p *DarwinProcess) Utime() uint64 {
+	return p.utime
+}
+
+func (p *DarwinProcess) Stime() uint64 {
+	return p.stime
+}
+
+func (p *DarwinProcess) Starttime() uint64 {
+	return p.starttime
 }
 
 func (p *DarwinProcess) Vsize() uint64 {

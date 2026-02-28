@@ -21,6 +21,10 @@ type Process interface {
 	Executable() string
 	Cmdline() string
 
+	Utime() uint64
+	Stime() uint64
+	Starttime() uint64
+
 	Vsize() uint64
 	Rss() uint32
 
