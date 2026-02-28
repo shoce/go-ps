@@ -18,6 +18,8 @@ type DarwinProcess struct {
 
 	utime     uint64
 	stime     uint64
+	cutime    int64
+	cstime    int64
 	starttime uint64
 
 	vsize uint64
@@ -48,6 +50,14 @@ func (p *DarwinProcess) Utime() uint64 {
 
 func (p *DarwinProcess) Stime() uint64 {
 	return p.stime
+}
+
+func (p *DarwinProcess) Cutime() int64 {
+	return p.cutime
+}
+
+func (p *DarwinProcess) Cstime() int64 {
+	return p.cstime
 }
 
 func (p *DarwinProcess) Starttime() uint64 {

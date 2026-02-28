@@ -14,7 +14,7 @@ import (
 type UnixProcess struct {
 	pid int
 
-	binary  string
+	comm    string
 	cmdline string
 
 	state  rune
@@ -46,7 +46,7 @@ func (p *UnixProcess) PPid() int {
 }
 
 func (p *UnixProcess) Executable() string {
-	return p.binary
+	return p.comm
 }
 
 func (p *UnixProcess) Cmdline() string {
@@ -59,6 +59,14 @@ func (p *UnixProcess) Utime() uint64 {
 
 func (p *UnixProcess) Stime() uint64 {
 	return p.stime
+}
+
+func (p *UnixProcess) Cutime() int64 {
+	return p.cutime
+}
+
+func (p *UnixProcess) Cstime() int64 {
+	return p.cstime
 }
 
 func (p *UnixProcess) Starttime() uint64 {

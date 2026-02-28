@@ -19,12 +19,12 @@ func (p *UnixProcess) Refresh() error {
 
 	// First, parse out the image name
 	data := string(dataBytes)
-	binStart := strings.IndexRune(data, '(') + 1
-	binEnd := strings.IndexRune(data[binStart:], ')')
-	p.binary = data[binStart : binStart+binEnd]
+	commStart := strings.IndexByte(data, '(')
+	commEnd := strings.LastIndexByte(data, ')')
+	p.comm = data[commStart+1 : commEnd]
 
 	// Move past the image name and start parsing the rest
-	data = data[binStart+binEnd+2:]
+	data = data[commEnd+2:]
 	var skip int64
 	// https://pkg.go.dev/fmt#Sscanf
 	_, err = fmt.Sscanf(data,
