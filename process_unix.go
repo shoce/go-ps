@@ -41,16 +41,24 @@ func (p *UnixProcess) Pid() int {
 	return p.pid
 }
 
-func (p *UnixProcess) PPid() int {
-	return p.ppid
-}
-
 func (p *UnixProcess) Executable() string {
 	return p.comm
 }
 
 func (p *UnixProcess) Cmdline() string {
 	return p.cmdline
+}
+
+func (p *UnixProcess) PPid() int {
+	return p.ppid
+}
+
+func (p *UnixProcess) Pgrp() int {
+	return p.pgrp
+}
+
+func (p *UnixProcess) Sid() int {
+	return p.sid
 }
 
 func (p *UnixProcess) Utime() uint64 {

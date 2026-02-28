@@ -11,11 +11,14 @@ import (
 )
 
 type DarwinProcess struct {
-	pid  int
-	ppid int
+	pid int
 
 	binary  string
 	cmdline string
+
+	ppid int
+	pgrp int
+	sid  int
 
 	utime     uint64
 	stime     uint64
@@ -33,16 +36,24 @@ func (p *DarwinProcess) Pid() int {
 	return p.pid
 }
 
-func (p *DarwinProcess) PPid() int {
-	return p.ppid
-}
-
 func (p *DarwinProcess) Executable() string {
 	return p.binary
 }
 
 func (p *DarwinProcess) Cmdline() string {
 	return p.cmdline
+}
+
+func (p *DarwinProcess) PPid() int {
+	return p.ppid
+}
+
+func (p *DarwinProcess) Pgrp() int {
+	return p.pgrp
+}
+
+func (p *DarwinProcess) Sid() int {
+	return p.sid
 }
 
 func (p *DarwinProcess) Utime() uint64 {
@@ -113,11 +124,21 @@ func processes() ([]Process, error) {
 
 	darwinProcs := make([]Process, len(procs))
 	for i, p := range procs {
+		pgid, err := syscall.Getpgid(int(p.Pid))
+		if err != nil {
+			return nil, err
+		}
+		sid, err := syscall.Getsid(int(p.Pid))
+		if err != nil {
+			return nil, err
+		}
 		darwinProcs[i] = &DarwinProcess{
 			pid:       int(p.Pid),
-			ppid:      int(p.PPid),
 			binary:    darwinCstring(p.Comm),
 			cmdline:   darwinCstring(p.Comm),
+			ppid:      int(p.PPid),
+			pgrp:      pgid,
+			sid:       sid,
 			utime:     uint64(p.Uticks),
 			stime:     uint64(p.Sticks),
 			starttime: uint64(p.StartSec),
